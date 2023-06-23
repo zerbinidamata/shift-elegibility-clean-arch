@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  open-shift:
+    build: &open-shift-local
+      context: .
+      target: base
+    ports:
+      - "3000:3000"
+    networks:
+      - seed_cbh_thc_network
+    
+  open-shift-test: 
+    build:  
+      <<: *open-shift-local
+    command: npm run test
+
+  open-shift-prod:
+    build: 
+      context: .
+      target: prod
+
+# Use it to connect with the seed DB
+networks:
+  seed_cbh_thc_network:
+    driver: bridge
+    external: true
+    
